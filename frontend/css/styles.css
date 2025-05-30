@@ -1,0 +1,15 @@
+body {
+  font-family: Arial, sans-serif;
+}
+
+.hero {
+  background: url('../images/banner.jpg') no-repeat center center;
+  background-size: cover;
+  height: 60vh;
+}
+
+.services img {
+  width: 80px;
+  height: 80px;
+}
+
