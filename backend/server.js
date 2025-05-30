@@ -1,39 +1,42 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const nodemailer = require('nodemailer');
-const app = express();
+const express = require("express");
+const bodyParser = require("body-parser");
+const cors = require("cors");
+const nodemailer = require("nodemailer");
 
-app.use(bodyParser.urlencoded({ extended: false }));
+const app = express();
+const port = 3000;
+
+app.use(cors());
 app.use(bodyParser.json());
 
-app.post('/contact', (req, res) => {
+app.post("/api/contact", (req, res) => {
   const { name, email, message } = req.body;
 
-  // Configure your SMTP transporter
   const transporter = nodemailer.createTransport({
-    service: 'Gmail',
+    service: "gmail",
     auth: {
-      user: 'your_email@gmail.com',
-      pass: 'your_password'
+      user: "vespalx2@gmail.com",
+      pass: "your_password"
     }
   });
 
   const mailOptions = {
     from: email,
-    to: 'your_email@gmail.com',
-    subject: 'New Contact Form Submission',
+    to: "vespalx2@gmail.com",
+    subject: "New Contact Form Submission",
     text: `Name: ${name}\nEmail: ${email}\nMessage: ${message}`
   };
 
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
-      return res.status(500).send('Error sending message.');
+      console.error(error);
+      res.status(500).send("Error sending message.");
+    } else {
+      res.status(200).send("Message sent successfully.");
     }
-    res.status(200).send('Message sent successfully.');
   });
 });
 
-app.listen(3000, () => {
-  console.log('Server running on port 3000');
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
 });
-
